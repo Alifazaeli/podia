@@ -1,0 +1,5 @@
+venv
+*.pyc
+.idea
+project/.idea
+/controller/__pycache__
