@@ -10,5 +10,9 @@ class User(db.Model):
     email = db.Column(db.Unicode)
     password = db.Column(db.Unicode)
     devices = db.Column(db.Unicode)
-    podcast_played_counter = db.column(db.Integer)
-    device_id = db.column(db.Unicode)
+    podcast_played_counter = db.Column(db.Integer)
+    device_id = db.Column(db.Unicode)
+
+    def add_user(self):
+        db.session.add(self)
+        db.session.commit()

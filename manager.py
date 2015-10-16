@@ -5,7 +5,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from project.config import DevelopmentConfig
 from project.factory import db, create_app
 
-app = create_app(DevelopmentConfig, 'nabz')
+app = create_app(DevelopmentConfig)
 manager = Manager(app)
 migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
