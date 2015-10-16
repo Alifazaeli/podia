@@ -5,15 +5,15 @@ import datetime
 
 class podcast(db.Model):
 
-    id = db.column(db.Integer, primary_key=True, autoincreament=True)
-    name = db.column(db.Unicode)
-    likes = db.column(db.Unicode)
+    id = db.Column(db.Integer, primary_key=True, autoincreament=True)
+    name = db.Column(db.Unicode)
+    likes = db.Column(db.Unicode)
     play_counter = db.Column(db.Integer)
-    note = db.column(db.Unicode)
-    url = db.column(db.Unicode)
-    image = db.column(db.Unicode)
+    note = db.Column(db.Unicode)
+    url = db.Column(db.Unicode)
+    image = db.Column(db.Unicode)
 
-    upload_time = db.column(db.DATETIME, default=datetime.datetime.now)
+    upload_time = db.Column(db.DATETIME, default=datetime.datetime.now)
 
     #publisher
     #user
