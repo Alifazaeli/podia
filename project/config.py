@@ -18,7 +18,7 @@ class DefaultConfig(object):
 
 class DevelopmentConfig(DefaultConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@localhost:5432/podcast'.format(
+    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@localhost:5432/podia'.format(
         os.environ.get('PG_USERNAME', 'ali'),
         os.environ.get('PG_PASSWORD', '123456')
     )

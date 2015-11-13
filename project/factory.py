@@ -17,12 +17,14 @@ def create_app(config=None):
     configure_blueprints(app)
     login_manager.init_app(app)
     db.init_app(app)
+
     return app
 
 
 def configure_app(app, config):
     app.config.from_object(config)
     app.config.from_envvar('project_CONFIG', silent=True)
+    app.config.setdefault('SQLALCHEMY_TRACK_MODIFICATIONS', True)
 
 
 def configure_blueprints(app):

@@ -19,14 +19,9 @@ class User(db.Model):
     __table_args__ = (UniqueConstraint('email', name='email__unique_user_key'), )
 
     def add_user(self):
-
-        try:
-            db.session.add(self)
-            db.session.commit()
-        except IntegrityError as ex:
-            return
+        db.session.add(self)
+        db.session.commit()
 
     @staticmethod
-    def get_user(email, password):
-        return User.query.filter(email == email, password == password).first()
-        # return User.query.filter(**kwargs)
+    def get_user(**kwargs):
+        return User.query.filter_by(**kwargs).first()
