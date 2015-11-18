@@ -3,7 +3,8 @@ __author__ = 'ali'
 from project.factory import db
 import datetime
 
-class podcast(db.Model):
+
+class Podcast(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincreament=True)
     name = db.Column(db.Unicode)
