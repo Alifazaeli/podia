@@ -6,8 +6,11 @@ from project.models.channel import Channel
 
 
 # from flask
-from Flask import jsonify
+from flask import jsonify
+from flask.ext.login import login_required
+
 
 @app.route('/get_channel/<channel_id>', methods=['GET'])
+@login_required
 def get_channel(channel_id):
     return jsonify(Channel.get_channel(id=channel_id))

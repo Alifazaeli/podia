@@ -3,11 +3,11 @@ __author__ = 'ali'
 # from python and Flask
 from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
+from flask.ext.login import login_required
 
 # from project
 from . import api
 from project.models.user import User
-
 
 @api.route('/add_user', methods=['GET', 'POST'])
 def add_user():
