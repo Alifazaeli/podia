@@ -2,10 +2,11 @@ __author__ = 'ali'
 
 from project.factory import db
 from sqlalchemy import UniqueConstraint
+from flask.ext.login import UserMixin
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.Unicode, unique=True, nullable=False)
@@ -16,7 +17,7 @@ class User(db.Model):
     device_id = db.Column(db.Unicode)
     token = db.Column(db.Unicode)
 
-    __table_args__ = (UniqueConstraint('email', name='email__unique_user_key'), )
+    # __table_args__ = (UniqueConstraint('email', name='email__unique_user_key'), )
 
     def add_user(self):
         db.session.add(self)

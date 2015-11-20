@@ -2,9 +2,9 @@ __author__ = 'ali'
 
 
 # import Flask
-from flask_login import LoginManager
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import LoginManager
 import sys
 
 app = Flask(__name__)
@@ -42,3 +42,17 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 
 sys.excepthook = handle_exception
+
+
+@login_manager.request_loader
+def load_user(request):
+
+    from project.models.user import User
+
+    token = request.headers.get('Authorization', '')
+
+    if token:
+        user_entry = User.get_user(token=token)
+        if user_entry:
+            return user_entry
+    return None
