@@ -5,11 +5,16 @@ __author__ = 'ali'
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
+from flask_admin import Admin
+from flask.ext.basicauth import BasicAuth
+
 import sys
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
 login_manager = LoginManager()
+admin = Admin(app, name='Podia', template_mode='bootstrap3')
+basic_auth = BasicAuth(app)
 
 
 def create_app(config=None):
@@ -17,6 +22,9 @@ def create_app(config=None):
     configure_blueprints(app)
     login_manager.init_app(app)
     db.init_app(app)
+
+    from project.config import config_dashboard_pages
+    config_dashboard_pages()
 
     return app
 
@@ -35,13 +43,10 @@ def configure_blueprints(app):
         app.register_blueprint(bp.api)
 
 
-
-def handle_exception(exc_type, exc_value, exc_traceback):
-    print(str(exc_type) + ' --- ' + str(exc_value) + ' --- ' + str(exc_traceback))
-
-
-
-sys.excepthook = handle_exception
+# def handle_exception(exc_type, exc_value, exc_traceback):
+#     print(str(exc_type) + ' --- ' + str(exc_value) + ' --- ' + str(exc_traceback))
+#
+# sys.excepthook = handle_exception
 
 
 @login_manager.request_loader
