@@ -3,7 +3,7 @@ __author__ = 'ali'
 # from python and Flask
 from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
-from flask.ext.login import login_required
+
 
 # from project
 from . import api
@@ -46,10 +46,13 @@ def login():
         if email and password:
             user_obj = User.get_user(email=email, password=password)
             if user_obj:
-                return jsonify(status=200, data=dict(user_name=user_obj.user_name, token=user_obj.token))
+                return jsonify(status=200, data=dict(user_name=user_obj.user_name,
+                                                     token=user_obj.token,
+                                                     email=user_obj.email,
+                                                     ))
             else:
                 return jsonify(status=404, data='Not Found!')
         else:
-            return jsonify(status=400, data='User_name or Password are required')
+            return jsonify(status=400, data='email or Password are required')
     except Exception as ex:
         return jsonify(status=500, data=ex.args)
