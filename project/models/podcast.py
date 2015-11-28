@@ -9,12 +9,11 @@ class Podcast(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincreament=True)
     name = db.Column(db.Unicode)
     likes = db.Column(db.Unicode)
+    links = db.Column(db.Unicode)
     play_counter = db.Column(db.Integer)
     note = db.Column(db.Unicode)
     url = db.Column(db.Unicode)
     image = db.Column(db.Unicode)
-
     upload_time = db.Column(db.DATETIME, default=datetime.datetime.now)
-
-    #publisher
-    #user
+    channel = db.Column(db.Integer, db.ForeignKey('channel.id'))
+    user = db.Column(db.Integer, db.ForeignKey('User.id'))
