@@ -9,9 +9,9 @@ from sqlalchemy.exc import IntegrityError
 from . import api
 from project.models.user import User
 
+
 @api.route('/add_user', methods=['GET', 'POST'])
 def add_user():
-
     try:
         user = User()
         user.user_name = request.form.get('user_name', None)
@@ -23,22 +23,21 @@ def add_user():
         user.token = hash(user.email + user.password)
         user.add_user()
 
-        return jsonify(status=201, token=user.token)
+        return jsonify(token=user.token), 201
     except IntegrityError as ex:
         if ex.orig.pgcode == '23505':  # duplicate user
-            return jsonify(status=409, data=ex.args)
+            return jsonify(data=ex.args), 409
         elif ex.orig.pgcode == '23502':  # required fields
-            return jsonify(status=400, data=ex.args)
+            return jsonify(data=ex.args), 400
         else:
-            return jsonify(status=400, data=ex.args)
+            return jsonify(data=ex.args), 400
 
     except Exception as ex:
-        return jsonify(status=500, data=ex.args)
+        return jsonify(data=ex.args), 500
 
 
 @api.route('/login', methods=['POST', 'GET'])
 def login():
-
     try:
         email = request.form.get('email', '')
         password = request.form.get('password', '')
@@ -46,13 +45,13 @@ def login():
         if email and password:
             user_obj = User.get_user(email=email, password=password)
             if user_obj:
-                return jsonify(status=200, data=dict(user_name=user_obj.user_name,
-                                                     token=user_obj.token,
-                                                     email=user_obj.email,
-                                                     ))
+                return jsonify(data=dict(user_name=user_obj.user_name,
+                                         token=user_obj.token,
+                                         email=user_obj.email,
+                                         )), 200
             else:
-                return jsonify(status=404, data='Not Found!')
+                return jsonify(data='Not Found!'), 404
         else:
-            return jsonify(status=400, data='email or Password are required')
+            return jsonify(data='email or Password are required'), 400
     except Exception as ex:
-        return jsonify(status=500, data=ex.args)
+        return jsonify(data=ex.args), 500
