@@ -15,9 +15,9 @@ class DefaultConfig(object):
     BABEL_DEFAULT_LOCALE = 'fa'
     BABEL_DEFAULT_TIMEZONE = 'Asia/tehran'
 
-    INSTALLED_BLUEPRINTS = (
-        'api', 'admin'
-    )
+    INSTALLED_BLUEPRINTS = [
+        'api'
+    ]
 
     app.config['BASIC_AUTH_USERNAME'] = 'ali'
     app.config['BASIC_AUTH_PASSWORD'] = 'af1992'
