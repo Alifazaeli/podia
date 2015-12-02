@@ -1,4 +1,4 @@
-__author__ = 'ali'
+s__author__ = 'ali'
 
 from project.factory import db
 from sqlalchemy import UniqueConstraint
@@ -6,7 +6,8 @@ from flask.ext.login import UserMixin
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
+    __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.Unicode, unique=True, nullable=False)
