@@ -10,12 +10,11 @@ from . import api
 from project.models.user import User
 
 
-@api.route('/add_user', methods=['GET', 'POST'])
+@api.route('/register', methods=['GET', 'POST'])
 def add_user():
     try:
         user = User()
         user.user_name = request.form.get('user_name', None)
-        user.device_id = request.form.get('device_id', '')
         user.devices = request.form.get('device_name', None)
         user.email = request.form.get('email', None)
         user.password = request.form.get('password', None)
@@ -23,7 +22,11 @@ def add_user():
         user.token = hash(user.email + user.password)
         user.add_user()
 
-        return jsonify(token=user.token), 201
+        return jsonify(user=dict(id=user.id,
+                                 token=user.token,
+                                 email=user.email,
+                                 user_name=user.user_name,
+                                 photo='https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png')), 201
     except IntegrityError as ex:
         if ex.orig.pgcode == '23505':  # duplicate user
             return jsonify(data=ex.args), 409
@@ -45,10 +48,12 @@ def login():
         if email and password:
             user_obj = User.get_user(email=email, password=password)
             if user_obj:
-                return jsonify(data=dict(user_name=user_obj.user_name,
+                return jsonify(user=dict(id=user_obj.id,
                                          token=user_obj.token,
                                          email=user_obj.email,
-                                         )), 200
+                                         user_name=user_obj.user_name,
+                                         photo='https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'))\
+                    , 200
             else:
                 return jsonify(data='Not Found!'), 404
         else:
