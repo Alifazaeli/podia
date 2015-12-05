@@ -29,14 +29,14 @@ def add_user():
                                  photo='https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png')), 201
     except IntegrityError as ex:
         if ex.orig.pgcode == '23505':  # duplicate user
-            return jsonify(data=ex.args), 409
+            return jsonify(message=ex.args), 409
         elif ex.orig.pgcode == '23502':  # required fields
-            return jsonify(data=ex.args), 400
+            return jsonify(message=ex.args), 400
         else:
-            return jsonify(data=ex.args), 400
+            return jsonify(message=ex.args), 400
 
     except Exception as ex:
-        return jsonify(data=ex.args), 500
+        return jsonify(message=ex.args), 500
 
 
 @api.route('/login', methods=['POST', 'GET'])
@@ -55,8 +55,8 @@ def login():
                                          photo='https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'))\
                     , 200
             else:
-                return jsonify(data='Not Found!'), 404
+                return jsonify(message='Not Found!'), 404
         else:
-            return jsonify(data='email or Password are required'), 400
+            return jsonify(meesage='email or Password are required'), 400
     except Exception as ex:
-        return jsonify(data=ex.args), 500
+        return jsonify(message=ex.args), 500
