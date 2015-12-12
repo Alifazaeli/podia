@@ -57,7 +57,6 @@ def load_user(request):
     token = request.headers.get('Authorization', '')
 
     if token:
-        user_entry = User.get_user(token=token)
+        user_entry = User.get(token=token)
         if user_entry:
             return user_entry
-    return None
