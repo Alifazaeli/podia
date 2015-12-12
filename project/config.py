@@ -4,8 +4,10 @@ __author__ = 'ali'
 import os
 from project.factory import app, admin, db
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.model import BaseModelView
 from project.models.user import User
 from project.models.channel import Channel
+from project.models.podcast import Podcast
 
 
 class DefaultConfig(object):
@@ -42,7 +44,6 @@ class DeploymentConfig(DefaultConfig):
 
 
 class UserView(ModelView):
-
     column_exclude_list = ['id', 'password', 'token']
 
     column_editable_list = ['email', 'password']
@@ -51,8 +52,17 @@ class UserView(ModelView):
     column_editable_list = ('user_name', 'email')
 
 
+class ChannelView(ModelView):
+    column_hide_backrefs = True
+
+
+class PodcastView(ModelView):
+    column_hide_backrefs = True
+
+
+
 def config_dashboard_pages():
     admin.add_view(UserView(User, db.session))
     admin.add_view(ModelView(Channel, db.session))
-
+    admin.add_view(PodcastView(Podcast, db.session))
 
