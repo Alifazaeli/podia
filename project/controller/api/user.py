@@ -46,7 +46,7 @@ def login():
         password = request.form.get('password', '')
 
         if email and password:
-            user_obj = User.get_user(email=email, password=password)
+            user_obj = User.get(email=email, password=password)
             if user_obj:
                 return jsonify(user=dict(id=user_obj.id,
                                          token=user_obj.token,
