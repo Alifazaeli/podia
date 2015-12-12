@@ -1,8 +1,10 @@
 II__author__ = 'ali'
 
 from project.factory import db
+from project.utils.serializer import dump_datetime
+
+from collections import OrderedDict
 from datetime import datetime
-from sqlalchemy import UniqueConstraint
 import uuid
 
 
@@ -15,10 +17,30 @@ class Channel(db.Model):
     description = db.Column(db.Unicode)
     creation_date = db.Column(db.DateTime, default=datetime.now)
     views = db.Column(db.Integer, default=0)
-    followers = db.Column(db.Integer, default=0)
-    user_rel = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('user_ref', lazy='dynamic'))
 
-    # __table_args__ = (UniqueConstraint('name', name='name__unique_channel_key'), )
+    def __str__(self):
+        return self.name
+
+    def as_dict(self, ignorefields):
+        """
+        this method convert sqlalchemy object to dict
+
+        :param: self : object of models
+        :type : object
+        :param : ignorefields
+        :type : list of ignore fields
+        :rtype : dict
+        """
+        result = OrderedDict()
+        for key in self.__mapper__.c.keys():
+            if key not in ignorefields:
+                if type(getattr(self, key)) == datetime:
+                    result[key] = dump_datetime(getattr(self, key))
+                else:
+                    result[key] = getattr(self, key)
+        return result
 
     def insert(self):
         db.session.add(self)
