@@ -17,7 +17,7 @@ def timeline():
     for item in podcasts:
         total.append(item.as_dict(['user_id', 'channel_id']))
 
-    return json.dumps(total), 200
+    return json.dumps({'podcasts': total}), 200
 
 
 @api.route('/podcast', methods=['GET', 'POST'])
