@@ -11,3 +11,9 @@ def dump_datetime(datetime):
     if datetime is None:
         return None
     return datetime.strftime("%Y-%m-%d-%H:%M:%S")
+
+
+def dump_time(time):
+    if time is None:
+        return None
+    return time.strftime("%H:%M:%S")

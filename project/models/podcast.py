@@ -1,22 +1,25 @@
 __author__ = 'ali'
 
 from project.factory import db
-from project.utils.serializer import dump_datetime
-import datetime
+from project.utils.serializer import dump_datetime, dump_time
 from collections import OrderedDict
+
+import datetime
+import uuid
 
 
 class Podcast(db.Model):
     __tablename__ = 'podcast'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uuid = db.Column(db.Unicode, unique=True, default=str(uuid.uuid3(uuid.NAMESPACE_DNS, str(datetime.datetime.now()))))
     name = db.Column(db.Unicode)
-    like = db.Column(db.Integer, default=0)
-    run_time = db.Column(db.Integer, default=0)
+    liked_times = db.Column(db.Integer, default=0)
+    listened_times = db.Column(db.Integer, default=0)
     description = db.Column(db.Unicode)
     url = db.Column(db.Unicode)
     image = db.Column(db.Unicode)
-    time = db.Column(db.Time)
+    duration = db.Column(db.Time)
     upload_time = db.Column(db.DateTime, default=datetime.datetime.now)
 
     channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'), nullable=False)
@@ -39,6 +42,8 @@ class Podcast(db.Model):
             if key not in ignorefields:
                 if type(getattr(self, key)) == datetime.datetime:
                     result[key] = dump_datetime(getattr(self, key))
+                elif type(getattr(self, key)) == datetime.time:
+                    result[key] = dump_time(getattr(self, key))
                 else:
                     result[key] = getattr(self, key)
 
