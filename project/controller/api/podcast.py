@@ -4,6 +4,7 @@ from flask import request
 import json
 
 from project.models.podcast import Podcast
+from project.models.channel import Channel
 from . import api
 
 
@@ -22,10 +23,14 @@ def timeline():
 
 @api.route('/podcast', methods=['GET', 'POST'])
 def podcast():
-    uuid = request.form.get('uuid', None).encode('utf-8')
-    channel_Id = request.form.get('channel_id', None)
+    uuid = request.form.get('uuid', None)
+    channel_uuid = request.form.get('channel_uuid', None)
 
-    podcasts = Podcast().get(limit=100, uuid=uuid, channel_id=channel_Id)
+    if uuid:
+        podcasts = Podcast().get(limit=10, uuid=uuid)
+    elif channel_uuid:
+        channel = Channel.get(uuid=channel_uuid)
+        podcasts = Podcast.get(limit=10, channel=channel)
     total = []
     for item in podcasts:
         total.append(item.as_dict(['user_id', 'channel_id']))
