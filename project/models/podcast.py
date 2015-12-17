@@ -12,7 +12,7 @@ class Podcast(db.Model):
     __tablename__ = 'podcast'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uuid = db.Column(db.Unicode, unique=True, default=str(uuid.uuid3(uuid.NAMESPACE_DNS, str(datetime.datetime.now()))))
+    uuid = db.Column(db.Unicode, unique=True)
     name = db.Column(db.Unicode)
     liked_times = db.Column(db.Integer, default=0)
     listened_times = db.Column(db.Integer, default=0)

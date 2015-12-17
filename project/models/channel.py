@@ -2,6 +2,7 @@ II__author__ = 'ali'
 
 from project.factory import db
 from project.utils.serializer import dump_datetime
+from sqlalchemy import event
 
 from collections import OrderedDict
 from datetime import datetime
@@ -13,12 +14,14 @@ class Channel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Unicode, unique=True, nullable=False)
-    uuid = db.Column(db.Unicode, unique=True, default=str(uuid.uuid3(uuid.NAMESPACE_DNS, str(datetime.now()))))
+    uuid = db.Column(db.Unicode, unique=True)
     description = db.Column(db.Unicode)
     creation_date = db.Column(db.DateTime, default=datetime.now)
     views = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('user_ref', lazy='dynamic'))
+
+
 
     def __str__(self):
         return self.name

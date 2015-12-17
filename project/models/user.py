@@ -10,6 +10,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.Unicode, unique=True, nullable=False)
+    uuid = db.Column(db.Unicode, unique=True)
     user_name = db.Column(db.Unicode, nullable=False)
     password = db.Column(db.Unicode)
     devices = db.Column(db.Unicode)
