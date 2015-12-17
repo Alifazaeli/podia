@@ -8,6 +8,8 @@ from flask_admin.contrib.fileadmin import FileAdmin
 from project.models.user import User
 from project.models.channel import Channel
 from project.models.podcast import Podcast
+import uuid
+
 
 path = os.path.join(os.path.dirname(__file__), 'static')
 
@@ -47,19 +49,32 @@ class DeploymentConfig(DefaultConfig):
 
 class UserView(ModelView):
     column_exclude_list = ['id', 'password', 'token']
-
     column_editable_list = ['email', 'password']
+    form_excluded_columns = ['uuid']
     page_size = 20
 
-    column_editable_list = ('user_name', 'email')
+    def on_model_change(self, form, model, is_created):
+        if len(model.name):
+            model.uuid = str(uuid.uuid3(uuid.NAMESPACE_DNS, model.name))
 
 
 class ChannelView(ModelView):
     column_hide_backrefs = True
+    form_excluded_columns = ['uuid']
+
+    # Generate new hash on `name` change
+    def on_model_change(self, form, model, is_created):
+        if len(model.name):
+            model.uuid = str(uuid.uuid3(uuid.NAMESPACE_DNS, model.name))
 
 
 class PodcastView(ModelView):
     column_hide_backrefs = True
+    form_excluded_columns = ['uuid']
+
+    def on_model_change(self, form, model, is_created):
+        if len(model.name):
+            model.uuid = str(uuid.uuid3(uuid.NAMESPACE_DNS, model.name))
 
 
 class FileManager(FileAdmin):
@@ -68,7 +83,6 @@ class FileManager(FileAdmin):
 
 def config_dashboard_pages():
     admin.add_view(UserView(User, db.session))
-    admin.add_view(ModelView(Channel, db.session))
+    admin.add_view(ChannelView(Channel, db.session))
     admin.add_view(PodcastView(Podcast, db.session))
     admin.add_view(FileManager(path, name='Static Files'))
-
