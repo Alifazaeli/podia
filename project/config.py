@@ -54,8 +54,8 @@ class UserView(ModelView):
     page_size = 20
 
     def on_model_change(self, form, model, is_created):
-        if len(model.name):
-            model.uuid = str(uuid.uuid3(uuid.NAMESPACE_DNS, model.name))
+        if len(model.email):
+            model.uuid = str(uuid.uuid3(uuid.NAMESPACE_DNS, model.email))
 
 
 class ChannelView(ModelView):
