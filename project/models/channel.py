@@ -15,6 +15,7 @@ class Channel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Unicode, unique=True, nullable=False)
     uuid = db.Column(db.Unicode, unique=True)
+    image = db.Column(db.Unicode)
     description = db.Column(db.Unicode)
     creation_date = db.Column(db.DateTime, default=datetime.now)
     views = db.Column(db.Integer, default=0)
