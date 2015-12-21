@@ -33,6 +33,6 @@ def podcast():
         podcasts = Podcast.get(limit=10, channel=channel)
     total = []
     for item in podcasts:
-        total.append(item.as_dict(['user_id', 'channel_id']))
+        total.append(item.as_dict(['id', 'user_id', 'channel_id']))
 
     return json.dumps({'podcasts': total}), 200
