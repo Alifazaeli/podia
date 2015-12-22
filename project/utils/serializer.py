@@ -1,7 +1,9 @@
 __author__ = 'ali'
 
+import datetime
 
-def dump_datetime(datetime):
+
+def dump_datetime(time):
     """
     change datetime format
     :param: datetime
@@ -10,7 +12,8 @@ def dump_datetime(datetime):
     """
     if datetime is None:
         return None
-    return datetime.strftime("%Y-%m-%d-%H:%M:%S")
+    if isinstance(time, datetime.datetime):
+        return time.timestamp()
 
 
 def dump_time(time):
