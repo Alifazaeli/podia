@@ -2,13 +2,11 @@ __author__ = 'ali'
 
 
 # import Flask
-from flask import Flask
+from flask import Flask, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask_admin import Admin
 from flask.ext.basicauth import BasicAuth
-
-import sys
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -53,10 +51,14 @@ def configure_blueprints(app):
 def load_user(request):
 
     from project.models.user import User
-
-    token = request.headers.get('Authorization', '')
+    token = request.headers.get('authorization', '')
 
     if token:
         user_entry = User.get(token=token)
         if user_entry:
+            user_entry.is_authenticated = True
             return user_entry
+
+@login_manager.unauthorized_handler
+def unauthorized_user():
+    return jsonify(status='unauthorized'), 401
