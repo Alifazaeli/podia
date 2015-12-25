@@ -18,6 +18,14 @@ class User(db.Model):
     # device_id = db.Column(db.Unicode)
     token = db.Column(db.Unicode)
 
+    is_authenticated = None
+    is_active = None
+    is_anonymous = None
+
+    def get_id(self, token):
+        return self.get(token=token)
+
+
     def __str__(self):
         return self.user_name + ' - ' + self.email
 
@@ -40,7 +48,7 @@ class User(db.Model):
                     result[key] = getattr(self, key)
         return result
 
-    def add_user(self):
+    def add(self):
         db.session.add(self)
         db.session.commit()
 
