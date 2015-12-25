@@ -20,7 +20,7 @@ def add_user():
         user.password = request.form.get('password', None)
         user.image = request.form.get('image', '')
         user.token = hash(user.email + user.password)
-        user.add_user()
+        user.add()
 
         return jsonify(user=dict(id=user.id,
                                  token=user.token,
