@@ -48,7 +48,7 @@ class DeploymentConfig(DefaultConfig):
 
 
 class UserView(ModelView):
-    column_exclude_list = ['id', 'password', 'token']
+    column_exclude_list = ['id', 'password']
     column_editable_list = ['email', 'password']
     form_excluded_columns = ['uuid']
     page_size = 20
@@ -56,6 +56,7 @@ class UserView(ModelView):
     def on_model_change(self, form, model, is_created):
         if len(model.email):
             model.uuid = str(uuid.uuid3(uuid.NAMESPACE_DNS, model.email))
+            model.token = uuid.uuid4().hex
 
 
 class ChannelView(ModelView):
